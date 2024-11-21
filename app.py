@@ -16,7 +16,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from models.Data import DatabaseSingleton, Administrador, Venta, Propiedad, Estatus, Propietario,Seguro
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
-
+from flask import send_file
+from fpdf import FPDF
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -810,6 +811,55 @@ def reporte_casas():
         })
 
     return render_template('reporte_casas.html', reporte=reporte)
+
+@app.route('/ficha_tecnica/<int:id>', methods=['GET'])
+def ficha_tecnica(id):
+    # Consultar los datos de la casa específica
+    propiedad = db_session.query(Propiedad).filter_by(idPro=id).first()
+
+    if not propiedad:
+        flash('La propiedad no existe.', 'error')
+        return redirect(url_for('reporte_casas'))
+
+    # Generar el contenido del PDF
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    # Título
+    pdf.set_font("Arial", style="B", size=16)
+    pdf.cell(200, 10, txt="Ficha Técnica de la Propiedad", ln=True, align='C')
+    pdf.ln(10)
+
+    # Datos de la propiedad
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, txt=f"Ciudad: {propiedad.ciudad}", ln=True)
+    pdf.cell(200, 10, txt=f"Estado: {propiedad.estado}", ln=True)
+    pdf.cell(200, 10, txt=f"Precio: ${propiedad.precio}", ln=True)
+    pdf.cell(200, 10, txt=f"Número de Recámaras: {propiedad.num_recamaras}", ln=True)
+    pdf.cell(200, 10, txt=f"Número de Baños: {propiedad.num_banos}", ln=True)
+    pdf.ln(10)
+
+    # Imagen (si está disponible)
+    if propiedad.imagen:
+        image_path = f"static/{propiedad.imagen}"
+        try:
+            pdf.image(image_path, x=10, y=pdf.get_y(), w=100)
+        except:
+            pdf.cell(200, 10, txt="Error al cargar la imagen.", ln=True)
+    
+    # Guardar el PDF en un archivo temporal
+    file_path = f"static/ficha_tecnica_{id}.pdf"
+    pdf.output(file_path)
+
+    return send_file(file_path, as_attachment=True)
+
+@app.route('/seleccionar_casa', methods=['GET'])
+def seleccionar_casa():
+    # Consultar todas las casas
+    propiedades = db_session.query(Propiedad).all()
+    return render_template('seleccionar_casa.html', propiedades=propiedades)
+
 
 
 if __name__ == '__main__':

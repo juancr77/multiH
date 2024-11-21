@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Casa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seleccionar Casa para Generar Ficha Técnica</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ciudad</th>
+                <th>Estado</th>
+                <th>Precio</th>
+                <th>Recámaras</th>
+                <th>Baños</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for propiedad in propiedades %}
+            <tr>
+                <td>{{ propiedad.idPro }}</td>
+                <td>{{ propiedad.ciudad }}</td>
+                <td>{{ propiedad.estado }}</td>
+                <td>${{ propiedad.precio }}</td>
+                <td>{{ propiedad.num_recamaras }}</td>
+                <td>{{ propiedad.num_banos }}</td>
+                <td>
+                    <a href="/ficha_tecnica/{{ propiedad.idPro }}">Generar PDF</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
