@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Casas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .search-container {
+            background-color: #013f72;
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .search-container h1 {
+            font-size: 20px;
+        }
+        .search-container label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-size: 14px;
+        }
+        .search-container input,
+        .search-container select,
+        .search-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .search-container button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <h1>Encuentra tu Futura Propiedad</h1>
+        <form action="/busqueda_casas" method="POST">
+            <!-- Ciudad y Estado -->
+            <label for="ciudad">Ciudad y Estado, o C.P.:</label>
+            <input type="text" id="ciudad" name="ciudad" placeholder="Ejemplo: Monterrey, NL">
+
+            <!-- Rango de Búsqueda -->
+            <label for="rango_busqueda">Rango de Búsqueda:</label>
+            <select id="rango_busqueda" name="rango_busqueda">
+                <option value="">Sin Rango</option>
+                <option value="local">Local</option>
+                <option value="regional">Regional</option>
+                <option value="nacional">Nacional</option>
+            </select>
+
+            <!-- Rango de Precio -->
+            <label for="precio_min">Rango de Precio De:</label>
+            <select id="precio_min" name="precio_min">
+                <option value="">Todos</option>
+                <option value="50000">50,000</option>
+                <option value="100000">100,000</option>
+                <option value="200000">200,000</option>
+                <option value="500000">500,000</option>
+            </select>
+            <label for="precio_max">A:</label>
+            <select id="precio_max" name="precio_max">
+                <option value="">Todos</option>
+                <option value="100000">100,000</option>
+                <option value="200000">200,000</option>
+                <option value="500000">500,000</option>
+                <option value="1000000">1,000,000</option>
+            </select>
+
+            <!-- Número de Recámaras -->
+            <label for="num_recamaras">Recámara(s):</label>
+            <select id="num_recamaras" name="num_recamaras">
+                <option value="">No importa</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4+</option>
+            </select>
+
+            <!-- Número de Baños -->
+            <label for="num_banos">Baño(s):</label>
+            <select id="num_banos" name="num_banos">
+                <option value="">No importa</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4+</option>
+            </select>
+
+            <!-- Botón de búsqueda -->
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+</body>
+</html>

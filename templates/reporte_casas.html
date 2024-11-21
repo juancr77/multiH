@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Casas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Casas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Ciudad</th>
+                <th>Estado</th>
+                <th>Precio</th>
+                <th>Recámaras</th>
+                <th>Baños</th>
+                <th>Estatus</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for casa in reporte %}
+            <tr>
+                <td>{{ casa.ciudad }}</td>
+                <td>{{ casa.estado }}</td>
+                <td>${{ casa.precio }}</td>
+                <td>{{ casa.recamaras }}</td>
+                <td>{{ casa.banos }}</td>
+                <td>{{ casa.estatus }}</td>
+                <td>
+                    {% if casa.imagen %}
+                        <img src="/static/{{ casa.imagen }}" alt="Imagen de la propiedad">
+                    {% else %}
+                        No disponible
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

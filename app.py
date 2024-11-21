@@ -757,6 +757,59 @@ def logout():
     session.clear()
     flash('Sesión cerrada exitosamente.', 'success')
     return redirect(url_for('admin'))
+#------------------------Busqueda cliente----------------------------------------#
+@app.route('/busqueda_casas', methods=['GET', 'POST'])
+def busqueda_casas():
+    if request.method == 'POST':
+        # Obtener los parámetros de búsqueda desde el formulario
+        ciudad = request.form.get('ciudad')
+        precio_min = request.form.get('precio_min', type=float)
+        precio_max = request.form.get('precio_max', type=float)
+        num_recamaras = request.form.get('num_recamaras', type=int)
+
+        # Crear la consulta de búsqueda
+        query = db_session.query(Propiedad).join(Venta, Propiedad.idPro == Venta.idProfk, isouter=True)
+        query = query.filter(Venta.idProfk == None)  # Asegurarnos de buscar casas que no están vendidas
+
+        if ciudad:
+            query = query.filter(Propiedad.ciudad.ilike(f"%{ciudad}%"))
+        if precio_min is not None:
+            query = query.filter(Propiedad.precio >= precio_min)
+        if precio_max is not None:
+            query = query.filter(Propiedad.precio <= precio_max)
+        if num_recamaras is not None:
+            query = query.filter(Propiedad.num_recamaras == num_recamaras)
+
+        # Ejecutar la consulta
+        propiedades = query.all()
+        return render_template('resultado_busqueda.html', propiedades=propiedades)
+
+    return render_template('busqueda_casas.html')
+#-----------------Reporte_casas--------------------#
+
+@app.route('/reporte_casas', methods=['GET'])
+def reporte_casas():
+    # Consulta para obtener todas las propiedades con su estatus
+    propiedades = (
+        db_session.query(Propiedad, Venta)
+        .outerjoin(Venta, Propiedad.idPro == Venta.idProfk)
+        .all()
+    )
+    
+    # Convertir los resultados a un formato procesable
+    reporte = []
+    for propiedad, venta in propiedades:
+        reporte.append({
+            'ciudad': propiedad.ciudad,
+            'estado': propiedad.estado,
+            'precio': propiedad.precio,
+            'recamaras': propiedad.num_recamaras,
+            'banos': propiedad.num_banos,
+            'estatus': 'Vendida' if venta else 'En Venta',
+            'imagen': propiedad.imagen,
+        })
+
+    return render_template('reporte_casas.html', reporte=reporte)
 
 
 if __name__ == '__main__':

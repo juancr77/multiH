@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Búsqueda</title>
+</head>
+<body>
+    <h1>Resultados de la Búsqueda</h1>
+    <a href="/busqueda_casas">Nueva Búsqueda</a>
+    <br><br>
+    {% if propiedades %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Ciudad</th>
+                    <th>Estado</th>
+                    <th>Precio</th>
+                    <th>Recámaras</th>
+                    <th>Baños</th>
+                    <th>Imagen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for propiedad in propiedades %}
+                <tr>
+                    <td>{{ propiedad.ciudad }}</td>
+                    <td>{{ propiedad.estado }}</td>
+                    <td>{{ propiedad.precio }}</td>
+                    <td>{{ propiedad.num_recamaras }}</td>
+                    <td>{{ propiedad.num_banos }}</td>
+                    <td>
+                        {% if propiedad.imagen %}
+                            <img src="/static/{{ propiedad.imagen }}" alt="Imagen de la propiedad" width="100">
+                        {% else %}
+                            Sin Imagen
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontraron propiedades que coincidan con los criterios de búsqueda.</p>
+    {% endif %}
+</body>
+</html>
