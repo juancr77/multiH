@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from models.Data import DatabaseSingleton, Administrador  # Importar desde tu archivo
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models.Data import DatabaseSingleton, Administrador, Venta, Propiedad, Estatus, Propietario,Seguro
+from models.Data import DatabaseSingleton, Administrador, Venta, Propiedad, Estatus, Propietario,Seguro,Mudanza
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 
@@ -465,6 +465,102 @@ def eliminar_seguro(id):
         db_session.rollback()
         flash('Error al eliminar el seguro.', 'error')
     return redirect(url_for('listar_seguros'))
+#------------------------Mudanza----------------------------------------#
+@app.route('/mudanzas')
+def listar_mudanzas():
+    if not is_admin():
+        flash('Debes iniciar sesión como administrador.', 'error')
+        return redirect(url_for('admin'))
+    mudanzas = db_session.query(Mudanza).all()
+    return render_template('mudanzas_admin.html', mudanzas=mudanzas)
+
+
+@app.route('/mudanzas/agregar', methods=['GET', 'POST'])
+def agregar_mudanza():
+    if not is_admin():
+        flash('Debes iniciar sesión como administrador.', 'error')
+        return redirect(url_for('admin'))
+
+    if request.method == 'POST':
+        idSfK2 = request.form['idSfK2']
+        idPropietario = request.form['idPropietario']
+        empresa_mudanza = request.form['empresa_mudanza']
+        fecha_mudanza = request.form['fecha_mudanza']
+        costo = request.form['costo']
+        comentarios = request.form['comentarios']
+
+        nueva_mudanza = Mudanza(
+            idSfK2=idSfK2,
+            idPropietario=idPropietario,
+            empresa_mudanza=empresa_mudanza,
+            fecha_mudanza=fecha_mudanza,
+            costo=costo,
+            comentarios=comentarios
+        )
+        try:
+            db_session.add(nueva_mudanza)
+            db_session.commit()
+            flash('Mudanza agregada exitosamente.', 'success')
+            return redirect(url_for('listar_mudanzas'))
+        except IntegrityError:
+            db_session.rollback()
+            flash('Error al agregar la mudanza. Revisa los datos.', 'error')
+
+    seguros = db_session.query(Seguro).all()
+    propietarios = db_session.query(Propietario).all()
+    return render_template('agregar_mudanza_admin.html', seguros=seguros, propietarios=propietarios)
+
+
+@app.route('/mudanzas/editar/<int:id>', methods=['GET', 'POST'])
+def editar_mudanza(id):
+    if not is_admin():
+        flash('Debes iniciar sesión como administrador.', 'error')
+        return redirect(url_for('admin'))
+
+    mudanza = db_session.query(Mudanza).get(id)
+    if not mudanza:
+        flash('Mudanza no encontrada.', 'error')
+        return redirect(url_for('listar_mudanzas'))
+
+    if request.method == 'POST':
+        mudanza.idSfK2 = request.form['idSfK2']
+        mudanza.idPropietario = request.form['idPropietario']
+        mudanza.empresa_mudanza = request.form['empresa_mudanza']
+        mudanza.fecha_mudanza = request.form['fecha_mudanza']
+        mudanza.costo = request.form['costo']
+        mudanza.comentarios = request.form['comentarios']
+        try:
+            db_session.commit()
+            flash('Mudanza actualizada exitosamente.', 'success')
+            return redirect(url_for('listar_mudanzas'))
+        except IntegrityError:
+            db_session.rollback()
+            flash('Error al actualizar la mudanza. Revisa los datos.', 'error')
+
+    seguros = db_session.query(Seguro).all()
+    propietarios = db_session.query(Propietario).all()
+    return render_template('editar_mudanza_admin.html', mudanza=mudanza, seguros=seguros, propietarios=propietarios)
+
+
+@app.route('/mudanzas/eliminar/<int:id>', methods=['POST'])
+def eliminar_mudanza(id):
+    if not is_admin():
+        flash('Debes iniciar sesión como administrador.', 'error')
+        return redirect(url_for('admin'))
+
+    mudanza = db_session.query(Mudanza).get(id)
+    if not mudanza:
+        flash('Mudanza no encontrada.', 'error')
+        return redirect(url_for('listar_mudanzas'))
+
+    try:
+        db_session.delete(mudanza)
+        db_session.commit()
+        flash('Mudanza eliminada exitosamente.', 'success')
+    except IntegrityError:
+        db_session.rollback()
+        flash('Error al eliminar la mudanza.', 'error')
+    return redirect(url_for('listar_mudanzas'))
 
 # Ruta para cerrar sesión
 @app.route('/logout')

@@ -1,41 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Propiedades</title>
 </head>
 <body>
-    <h1>Lista de Propiedades</h1>
-    <a href="/propiedades/agregar">Agregar Propiedad</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Ciudad</th>
-            <th>Estado</th>
-            <th>Código Postal</th>
-            <th>Precio</th>
-            <th>Recámaras</th>
-            <th>Baños</th>
-            <th>Acciones</th>
-        </tr>
-        {% for propiedad in propiedades %}
-        <tr>
-            <td>{{ propiedad.idPro }}</td>
-            <td>{{ propiedad.ciudad }}</td>
-            <td>{{ propiedad.estado }}</td>
-            <td>{{ propiedad.codigo_postal }}</td>
-            <td>{{ propiedad.precio }}</td>
-            <td>{{ propiedad.num_recamaras }}</td>
-            <td>{{ propiedad.num_banos }}</td>
-            <td>
-                <a href="/propiedades/editar/{{ propiedad.idPro }}">Editar</a>
-                <form action="/propiedades/eliminar/{{ propiedad.idPro }}" method="POST" style="display:inline;">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta propiedad?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <h1>Lista de Propiedades</h1>
+        <a href="{{ url_for('agregar_propiedad') }}">Agregar Propiedad</a>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Ciudad</th>
+                <th>Estado</th>
+                <th>Código Postal</th>
+                <th>Precio</th>
+                <th>Recámaras</th>
+                <th>Baños</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+            {% if propiedades %}
+                {% for propiedad in propiedades %}
+                <tr>
+                    <td>{{ propiedad.idPro }}</td>
+                    <td>{{ propiedad.ciudad }}</td>
+                    <td>{{ propiedad.estado }}</td>
+                    <td>{{ propiedad.codigo_postal }}</td>
+                    <td>{{ propiedad.precio if propiedad.precio else 'No especificado' }}</td>
+                    <td>{{ propiedad.num_recamaras }}</td>
+                    <td>{{ propiedad.num_banos }}</td>
+                    <td>
+                        {% if propiedad.imagen %}
+                        <img src="{{ propiedad.imagen }}" alt="Imagen de Propiedad">
+                        {% else %}
+                        Sin Imagen
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('editar_propiedad', id=propiedad.idPro) }}">Editar</a>
+                        <form action="{{ url_for('eliminar_propiedad', id=propiedad.idPro) }}" method="POST" style="display:inline;">
+                            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta propiedad?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="9">No hay propiedades disponibles.</td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
 </body>
 </html>

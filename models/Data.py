@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Text, DECIMAL, LargeBinary
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Text, DECIMAL
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
 # Configuración de la base de datos
@@ -66,7 +66,7 @@ class Propiedad(Base):
     num_recamaras = Column(Integer, nullable=False)
     num_banos = Column(Integer, nullable=False)
     idSeguro = Column(Integer, ForeignKey('Seguro.idS'))
-    imagen = Column(LargeBinary, nullable=True)
+    imagen = Column(String(10000), nullable=True)  # Ahora guarda la ruta como texto
 
     seguro = relationship('Seguro')
 

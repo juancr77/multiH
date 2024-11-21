@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Mudanza</title>
+</head>
+<body>
+    <h1>Editar Mudanza</h1>
+    <form method="POST">
+        <label>Seguro:</label>
+        <select name="idSfK2">
+            {% for seguro in seguros %}
+            <option value="{{ seguro.idS }}" {% if seguro.idS == mudanza.idSfK2 %}selected{% endif %}>
+                {{ seguro.detalle }}
+            </option>
+            {% endfor %}
+        </select><br>
+        <label>Propietario:</label>
+        <select name="idPropietario">
+            {% for propietario in propietarios %}
+            <option value="{{ propietario.idPropietario }}" {% if propietario.idPropietario == mudanza.idPropietario %}selected{% endif %}>
+                {{ propietario.nombre }}
+            </option>
+            {% endfor %}
+        </select><br>
+        <label>Empresa de Mudanza:</label>
+        <input type="text" name="empresa_mudanza" value="{{ mudanza.empresa_mudanza }}" required><br>
+        <label>Fecha de Mudanza:</label>
+        <input type="date" name="fecha_mudanza" value="{{ mudanza.fecha_mudanza }}" required><br>
+        <label>Costo:</label>
+        <input type="number" step="0.01" name="costo" value="{{ mudanza.costo }}"><br>
+        <label>Comentarios:</label>
+        <textarea name="comentarios">{{ mudanza.comentarios }}</textarea><br>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+</body>
+</html>

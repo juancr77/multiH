@@ -1,26 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Propiedad</title>
-</head>
-<body>
-    <h1>Editar Propiedad</h1>
-    <form method="POST">
-        <label>Ciudad:</label>
-        <input type="text" name="ciudad" value="{{ propiedad.ciudad }}" required><br>
-        <label>Estado:</label>
-        <input type="text" name="estado" value="{{ propiedad.estado }}" required><br>
-        <label>Código Postal:</label>
-        <input type="text" name="codigo_postal" value="{{ propiedad.codigo_postal }}" required><br>
-        <label>Precio:</label>
-        <input type="number" step="0.01" name="precio" value="{{ propiedad.precio }}" required><br>
-        <label>Recámaras:</label>
-        <input type="number" name="num_recamaras" value="{{ propiedad.num_recamaras }}" required><br>
-        <label>Baños:</label>
-        <input type="number" name="num_banos" value="{{ propiedad.num_banos }}" required><br>
-        <button type="submit">Guardar Cambios</button>
-    </form>
-</body>
-</html>
+<form method="POST" enctype="multipart/form-data">
+    <label>Ciudad:</label>
+    <input type="text" name="ciudad" value="{{ propiedad.ciudad }}" required><br>
+
+    <label>Estado:</label>
+    <input type="text" name="estado" value="{{ propiedad.estado }}" required><br>
+
+    <label>Código Postal:</label>
+    <input type="text" name="codigo_postal" value="{{ propiedad.codigo_postal }}" required><br>
+
+    <label>Precio:</label>
+    <input type="number" step="0.01" name="precio" value="{{ propiedad.precio }}" required><br>
+
+    <label>Recámaras:</label>
+    <input type="number" name="num_recamaras" value="{{ propiedad.num_recamaras }}" required><br>
+
+    <label>Baños:</label>
+    <input type="number" name="num_banos" value="{{ propiedad.num_banos }}" required><br>
+
+    <label>Seguro:</label>
+    <select name="idSeguro" required>
+        {% for seguro in seguros %}
+        <option value="{{ seguro.idS }}" {% if seguro.idS == propiedad.idSeguro %}selected{% endif %}>
+            {{ seguro.detalle }}
+        </option>
+        {% endfor %}
+    </select><br>
+
+    <label>Imagen:</label>
+    <input type="file" name="imagen" accept="image/*"><br>
+    {% if propiedad.imagen %}
+    <p>Imagen actual: <img src="{{ url_for('static', filename=propiedad.imagen) }}" alt="Imagen actual" width="200"></p>
+    {% endif %}
+
+    <button type="submit">Guardar Cambios</button>
+</form>

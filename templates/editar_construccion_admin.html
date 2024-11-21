@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Construcción</title>
+</head>
+<body>
+    <h1>Editar Construcción</h1>
+    <form method="POST">
+        <label>Seguro:</label>
+        <select name="idSfK1">
+            {% for seguro in seguros %}
+            <option value="{{ seguro.idS }}" {% if seguro.idS == construccion.idSfK1 %}selected{% endif %}>
+                {{ seguro.detalle }}
+            </option>
+            {% endfor %}
+        </select><br>
+        <label>Propietario:</label>
+        <select name="idPropietario">
+            {% for propietario in propietarios %}
+            <option value="{{ propietario.idPropietario }}" {% if propietario.idPropietario == construccion.idPropietario %}selected{% endif %}>
+                {{ propietario.nombre }}
+            </option>
+            {% endfor %}
+        </select><br>
+        <label>Materiales Usados:</label>
+        <input type="text" name="materiales_usados" value="{{ construccion.materiales_usados }}" required><br>
+        <label>Fecha de Inicio:</label>
+        <input type="date" name="fecha_inicio" value="{{ construccion.fecha_inicio }}" required><br>
+        <label>Fecha de Fin:</label>
+        <input type="date" name="fecha_fin" value="{{ construccion.fecha_fin }}"><br>
+        <label>Estado:</label>
+        <input type="text" name="estado_construccion" value="{{ construccion.estado_construccion }}" required><br>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+</body>
+</html>

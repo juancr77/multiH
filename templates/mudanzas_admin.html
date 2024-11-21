@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Mudanzas</title>
+</head>
+<body>
+    <h1>Lista de Mudanzas</h1>
+    <a href="/mudanzas/agregar">Agregar Mudanza</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Seguro</th>
+            <th>Propietario</th>
+            <th>Empresa</th>
+            <th>Fecha</th>
+            <th>Costo</th>
+            <th>Comentarios</th>
+            <th>Acciones</th>
+        </tr>
+        {% for mudanza in mudanzas %}
+        <tr>
+            <td>{{ mudanza.idMud }}</td>
+            <td>{{ mudanza.idSfK2 }}</td>
+            <td>{{ mudanza.idPropietario }}</td>
+            <td>{{ mudanza.empresa_mudanza }}</td>
+            <td>{{ mudanza.fecha_mudanza }}</td>
+            <td>{{ mudanza.costo }}</td>
+            <td>{{ mudanza.comentarios }}</td>
+            <td>
+                <a href="/mudanzas/editar/{{ mudanza.idMud }}">Editar</a>
+                <form action="/mudanzas/eliminar/{{ mudanza.idMud }}" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta mudanza?');">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
