@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Propietarios</title>
+</head>
+<body>
+    <h1>Lista de Propietarios</h1>
+    <a href="/propietarios/agregar">Agregar Propietario</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Fecha de Registro</th>
+            <th>Acciones</th>
+        </tr>
+        {% for propietario in propietarios %}
+        <tr>
+            <td>{{ propietario.idPropietario }}</td>
+            <td>{{ propietario.nombre }}</td>
+            <td>{{ propietario.apellido }}</td>
+            <td>{{ propietario.telefono }}</td>
+            <td>{{ propietario.email }}</td>
+            <td>{{ propietario.direccion }}</td>
+            <td>{{ propietario.fecha_registro }}</td>
+            <td>
+                <a href="/propietarios/editar/{{ propietario.idPropietario }}">Editar</a>
+                <form action="/propietarios/eliminar/{{ propietario.idPropietario }}" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este propietario?');">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

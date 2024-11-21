@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login & Registro</title>
+</head>
+<body>
+    <h1>Admin Login y Registro</h1>
+    
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Formulario de Registro -->
+    <h2>Registro</h2>
+    <form method="POST" action="/admin">
+        <input type="hidden" name="action" value="register">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="text" name="apellido" placeholder="Apellido" required>
+        <input type="text" name="telefono" placeholder="Teléfono">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <!-- Formulario de Login -->
+    <h2>Login</h2>
+    <form method="POST" action="/admin">
+        <input type="hidden" name="action" value="login">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+</body>
+</html>

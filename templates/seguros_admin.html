@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Seguros</title>
+</head>
+<body>
+    <h1>Lista de Seguros</h1>
+    <a href="/seguros/agregar">Agregar Seguro</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Detalle</th>
+            <th>Acciones</th>
+        </tr>
+        {% for seguro in seguros %}
+        <tr>
+            <td>{{ seguro.idS }}</td>
+            <td>{{ seguro.detalle }}</td>
+            <td>
+                <a href="/seguros/editar/{{ seguro.idS }}">Editar</a>
+                <form action="/seguros/eliminar/{{ seguro.idS }}" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este seguro?');">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ventas</title>
+</head>
+<body>
+    <h1>Lista de Ventas</h1>
+    <a href="/ventas/agregar">Agregar Venta</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Propiedad</th>
+            <th>Estatus</th>
+            <th>Propietario</th>
+            <th>Fecha Venta</th>
+            <th>Acciones</th>
+        </tr>
+        {% for venta in ventas %}
+        <tr>
+            <td>{{ venta.idVenta }}</td>
+            <td>{{ venta.propiedad.idPro }}</td>
+            <td>{{ venta.estatus.detalle }}</td>
+            <td>{{ venta.propietario.nombre }}</td>
+            <td>{{ venta.fecha_venta }}</td>
+            <td>
+                <!-- Enlace para editar -->
+                <a href="/ventas/editar/{{ venta.idVenta }}">Editar</a>
+                <!-- Botón para eliminar -->
+                <form action="/ventas/eliminar/{{ venta.idVenta }}" method="POST" style="display:inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
