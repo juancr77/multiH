@@ -4,38 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Construcciones</title>
+    <link href="{{ url_for('static', filename='Css/others.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <h1>Lista de Construcciones</h1>
     <a href="/construcciones/agregar">Agregar Construcción</a>
     <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Seguro</th>
-            <th>Propietario</th>
-            <th>Materiales</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-        {% for construccion in construcciones %}
-        <tr>
-            <td>{{ construccion.idCons }}</td>
-            <td>{{ construccion.idSfK1 }}</td>
-            <td>{{ construccion.idPropietario }}</td>
-            <td>{{ construccion.materiales_usados }}</td>
-            <td>{{ construccion.fecha_inicio }}</td>
-            <td>{{ construccion.fecha_fin }}</td>
-            <td>{{ construccion.estado_construccion }}</td>
-            <td>
-                <a href="/construcciones/editar/{{ construccion.idCons }}">Editar</a>
-                <form action="/construcciones/eliminar/{{ construccion.idCons }}" method="POST" style="display:inline;">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta construcción?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Seguro</th>
+                <th>Propietario</th>
+                <th>Materiales</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for construccion in construcciones %}
+            <tr>
+                <td>{{ construccion.idCons }}</td>
+                <td>{{ construccion.idSfK1 }}</td>
+                <td>{{ construccion.idPropietario }}</td>
+                <td>{{ construccion.materiales_usados }}</td>
+                <td>{{ construccion.fecha_inicio }}</td>
+                <td>{{ construccion.fecha_fin }}</td>
+                <td>{{ construccion.estado_construccion }}</td>
+                <td data-label="Acciones">
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <a href="/construcciones/editar/{{ construccion.idCons }}">Editar</a>
+                        <form action="/construcciones/eliminar/{{ construccion.idCons }}" method="POST" style="display:inline;">
+                            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta construcción?');">Eliminar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>

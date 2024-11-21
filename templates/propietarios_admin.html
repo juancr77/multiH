@@ -4,38 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Propietarios</title>
+    <link href="{{ url_for('static', filename='Css/others.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Lista de Propietarios</h1>
-    <a href="/propietarios/agregar">Agregar Propietario</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Teléfono</th>
-            <th>Email</th>
-            <th>Dirección</th>
-            <th>Fecha de Registro</th>
-            <th>Acciones</th>
-        </tr>
-        {% for propietario in propietarios %}
-        <tr>
-            <td>{{ propietario.idPropietario }}</td>
-            <td>{{ propietario.nombre }}</td>
-            <td>{{ propietario.apellido }}</td>
-            <td>{{ propietario.telefono }}</td>
-            <td>{{ propietario.email }}</td>
-            <td>{{ propietario.direccion }}</td>
-            <td>{{ propietario.fecha_registro }}</td>
-            <td>
-                <a href="/propietarios/editar/{{ propietario.idPropietario }}">Editar</a>
-                <form action="/propietarios/eliminar/{{ propietario.idPropietario }}" method="POST" style="display:inline;">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este propietario?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <h1>Lista de Propietarios</h1>
+        <a href="/propietarios/agregar" class="btn">Agregar Propietario</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Dirección</th>
+                    <th>Fecha de Registro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if propietarios %}
+                    {% for propietario in propietarios %}
+                    <tr>
+                        <td data-label="ID">{{ propietario.idPropietario }}</td>
+                        <td data-label="Nombre">{{ propietario.nombre }}</td>
+                        <td data-label="Apellido">{{ propietario.apellido }}</td>
+                        <td data-label="Teléfono">{{ propietario.telefono }}</td>
+                        <td data-label="Email">{{ propietario.email }}</td>
+                        <td data-label="Dirección">{{ propietario.direccion }}</td>
+                        <td data-label="Fecha de Registro">{{ propietario.fecha_registro }}</td>
+                        <td data-label="Acciones">
+                            <a href="/propietarios/editar/{{ propietario.idPropietario }}" class="btn btn-edit">Editar</a>
+                            <form action="/propietarios/eliminar/{{ propietario.idPropietario }}" method="POST" style="margin: 0;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar este propietario?');">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="no-data">No hay propietarios disponibles.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

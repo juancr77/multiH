@@ -4,38 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Mudanzas</title>
+    <link href="{{ url_for('static', filename='Css/others.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Lista de Mudanzas</h1>
-    <a href="/mudanzas/agregar">Agregar Mudanza</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Seguro</th>
-            <th>Propietario</th>
-            <th>Empresa</th>
-            <th>Fecha</th>
-            <th>Costo</th>
-            <th>Comentarios</th>
-            <th>Acciones</th>
-        </tr>
-        {% for mudanza in mudanzas %}
-        <tr>
-            <td>{{ mudanza.idMud }}</td>
-            <td>{{ mudanza.idSfK2 }}</td>
-            <td>{{ mudanza.idPropietario }}</td>
-            <td>{{ mudanza.empresa_mudanza }}</td>
-            <td>{{ mudanza.fecha_mudanza }}</td>
-            <td>{{ mudanza.costo }}</td>
-            <td>{{ mudanza.comentarios }}</td>
-            <td>
-                <a href="/mudanzas/editar/{{ mudanza.idMud }}">Editar</a>
-                <form action="/mudanzas/eliminar/{{ mudanza.idMud }}" method="POST" style="display:inline;">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta mudanza?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <h1>Lista de Mudanzas</h1>
+        <a href="/mudanzas/agregar" class="btn">Agregar Mudanza</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Seguro</th>
+                    <th>Propietario</th>
+                    <th>Empresa</th>
+                    <th>Fecha</th>
+                    <th>Costo</th>
+                    <th>Comentarios</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if mudanzas %}
+                    {% for mudanza in mudanzas %}
+                    <tr>
+                        <td data-label="ID">{{ mudanza.idMud }}</td>
+                        <td data-label="Seguro">{{ mudanza.idSfK2 }}</td>
+                        <td data-label="Propietario">{{ mudanza.idPropietario }}</td>
+                        <td data-label="Empresa">{{ mudanza.empresa_mudanza }}</td>
+                        <td data-label="Fecha">{{ mudanza.fecha_mudanza }}</td>
+                        <td data-label="Costo">{{ mudanza.costo }}</td>
+                        <td data-label="Comentarios">{{ mudanza.comentarios }}</td>
+                        <td data-label="Acciones">
+                            <a href="/mudanzas/editar/{{ mudanza.idMud }}" class="btn btn-edit">Editar</a>
+                            <form action="/mudanzas/eliminar/{{ mudanza.idMud }}" method="POST" style="margin: 0;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar esta mudanza?');">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="no-data">No hay mudanzas disponibles.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

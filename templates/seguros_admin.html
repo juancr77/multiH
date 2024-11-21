@@ -4,28 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Seguros</title>
+    <link href="{{ url_for('static', filename='Css/others.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Lista de Seguros</h1>
-    <a href="/seguros/agregar">Agregar Seguro</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Detalle</th>
-            <th>Acciones</th>
-        </tr>
-        {% for seguro in seguros %}
-        <tr>
-            <td>{{ seguro.idS }}</td>
-            <td>{{ seguro.detalle }}</td>
-            <td>
-                <a href="/seguros/editar/{{ seguro.idS }}">Editar</a>
-                <form action="/seguros/eliminar/{{ seguro.idS }}" method="POST" style="display:inline;">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este seguro?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <h1>Lista de Seguros</h1>
+        <a href="/seguros/agregar" class="btn">Agregar Seguro</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Detalle</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if seguros %}
+                    {% for seguro in seguros %}
+                    <tr>
+                        <td data-label="ID">{{ seguro.idS }}</td>
+                        <td data-label="Detalle">{{ seguro.detalle }}</td>
+                        <td data-label="Acciones">
+                            <a href="/seguros/editar/{{ seguro.idS }}" class="btn btn-edit">Editar</a>
+                            <form action="/seguros/eliminar/{{ seguro.idS }}" method="POST" style="margin: 0;">
+                                <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar este seguro?');">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="no-data">No hay seguros disponibles.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
