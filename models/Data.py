@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date, Text, DECIMAL
-from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship, scoped_session
 
 # Configuración de la base de datos
 class DatabaseSingleton:
@@ -14,14 +14,14 @@ class DatabaseSingleton:
 
     def __init__(self):
         if not self._engine:
-            DATABASE_URL = "mysql+pymysql://root:@localhost:3306/multihome"
+            DATABASE_URL = "mysql+pymysql://root:@localhost:3306/multihome"  # Reemplaza con tu URL de la base de datos
             self._engine = create_engine(DATABASE_URL, echo=False)
-            self._Session = sessionmaker(bind=self._engine)
+            self._Session = scoped_session(sessionmaker(bind=self._engine))
 
     def get_session(self):
         if not self._Session:
             raise Exception("Database connection not initialized.")
-        return self._Session()
+        return self._Session
 
 Base = declarative_base()
 
@@ -66,7 +66,7 @@ class Propiedad(Base):
     num_recamaras = Column(Integer, nullable=False)
     num_banos = Column(Integer, nullable=False)
     idSeguro = Column(Integer, ForeignKey('Seguro.idS'))
-    imagen = Column(String(10000), nullable=True)  # Ahora guarda la ruta como texto
+    imagen = Column(String(10000), nullable=True)  # Guarda la ruta como texto
 
     seguro = relationship('Seguro')
 
