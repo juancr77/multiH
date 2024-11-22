@@ -309,6 +309,66 @@ def agregar_propiedad():
     seguros = db_session.query(Seguro).all()
     return render_template('agregar_propiedad_admin.html', seguros=seguros)
 
+@app.route('/propiedades/editar/<int:id>', methods=['GET', 'POST'])
+def editar_propiedad(id):
+    if not is_admin():
+        flash('Debes iniciar sesión como administrador.', 'error')
+        return redirect(url_for('admin'))
+    
+    propiedad = db_session.query(Propiedad).get(id)
+    if not propiedad:
+        flash('Propiedad no encontrada.', 'error')
+        return redirect(url_for('listar_propiedades'))
+    
+    if request.method == 'POST':
+        propiedad.ciudad = request.form['ciudad']
+        propiedad.estado = request.form['estado']
+        propiedad.codigo_postal = request.form['codigo_postal']
+        propiedad.precio = request.form['precio']
+        propiedad.num_recamaras = request.form['num_recamaras']
+        propiedad.num_banos = request.form['num_banos']
+        propiedad.idSeguro = request.form['idSeguro']
+        
+        file = request.files.get('imagen')
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            filepath = filepath.replace("static/", "")
+            propiedad.imagen = filepath  # Actualizar la imagen
+        
+        try:
+            db_session.commit()
+            flash('Propiedad actualizada exitosamente.', 'success')
+            return redirect(url_for('listar_propiedades'))
+        except IntegrityError:
+            db_session.rollback()
+            flash('Error al actualizar la propiedad. Revisa los datos.', 'error')
+    
+    seguros = db_session.query(Seguro).all()
+    return render_template('editar_propiedad_admin.html', propiedad=propiedad, seguros=seguros)
+
+@app.route('/propiedades/eliminar/<int:id>', methods=['POST'])
+def eliminar_propiedad(id):
+    if not is_admin():
+        flash('Debes iniciar sesión como administrador.', 'error')
+        return redirect(url_for('admin'))
+    
+    propiedad = db_session.query(Propiedad).get(id)
+    if not propiedad:
+        flash('Propiedad no encontrada.', 'error')
+        return redirect(url_for('listar_propiedades'))
+    
+    try:
+        db_session.delete(propiedad)
+        db_session.commit()
+        flash('Propiedad eliminada exitosamente.', 'success')
+    except IntegrityError:
+        db_session.rollback()
+        flash('Error al eliminar la propiedad.', 'error')
+    
+    return redirect(url_for('listar_propiedades'))
+
 # ----------------------------- Gestión de Propietarios ----------------------------- #
 @app.route('/propietarios')
 def listar_propietarios():
