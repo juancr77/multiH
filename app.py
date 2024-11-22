@@ -29,8 +29,8 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'tu_correo@gmail.com'  # Reemplaza con tu correo
-app.config['MAIL_PASSWORD'] = 'tu_contraseña'        # Reemplaza con tu contraseña o usa variables de entorno
+app.config['MAIL_USERNAME'] = 'reissjony411@gmail.com'  # Reemplaza con tu correo
+app.config['MAIL_PASSWORD'] = 'keau iufr bgha bxnc'        # Reemplaza con tu contraseña o usa variables de entorno
 
 mail = Mail(app)
 
@@ -87,7 +87,7 @@ def contactos():
             msg = Message(
                 subject="Nuevo mensaje de contacto",
                 sender=app.config['MAIL_USERNAME'],
-                recipients=['destinatario@example.com'],  # Reemplaza con el correo destinatario
+                recipients=['reissjony411@gmail.com'],  # Reemplaza con el correo destinatario
                 body=f"Nombre: {nombre}\nCorreo: {email}\nMensaje: {mensaje}"
             )
             mail.send(msg)

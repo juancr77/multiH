@@ -1506,3 +1506,212 @@ button:hover {
     }
 }
 
+/* hola lola */
+
+/* Variables */
+:root {
+    --color-primario: #007BFF;
+    --color-primario-hover: #0056b3;
+    --color-peligro: #DC3545;
+    --color-peligro-hover: #C82333;
+    --color-fondo: #f4f4f4;
+    --color-texto: #333;
+    --font-family: Arial, sans-serif;
+    --border-radius: 5px;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* General */
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: var(--color-primario);
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: var(--color-texto);
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* Flash Messages */
+ul {
+    max-width: 600px;
+    margin: 0 auto 20px;
+    padding: 0;
+    list-style: none;
+}
+
+ul li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+ul li.success {
+    background-color: #28a745;
+    color: white;
+}
+
+ul li.error {
+    background-color: var(--color-peligro);
+    color: white;
+}
+
+ul li.info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+/* Formularios */
+form {
+    max-width: 400px;
+    margin: 0 auto 40px;
+    padding: 20px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid #ddd;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="hidden"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+form button:hover {
+    background-color: var(--color-primario-hover);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1, h2 {
+        font-size: 18px;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form button {
+        font-size: 14px;
+    }
+}
+
+/* preoijweoi */
+
+/* Variables */
+:root {
+    --color-primario: #007BFF;
+    --color-primario-hover: #0056b3;
+    --color-texto: #333;
+    --color-fondo: #f4f4f4;
+    --font-family: Arial, sans-serif;
+    --border-radius: 5px;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo General */
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+h1 {
+    color: var(--color-primario);
+    margin-bottom: 20px;
+}
+
+/* Menú Principal */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 400px; /* Ancho máximo del menú */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+ul li {
+    margin: 0;
+    padding: 0;
+}
+
+ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+ul li a:hover {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+ul li:last-child a {
+    border-bottom: none; /* Quitar el borde inferior del último elemento */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    ul {
+        max-width: 90%; /* Ajustar el ancho en pantallas pequeñas */
+    }
+
+    ul li a {
+        padding: 15px 10px;
+        font-size: 14px; /* Reducir el tamaño del texto */
+    }
+}
